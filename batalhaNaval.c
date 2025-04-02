@@ -4,6 +4,18 @@
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
 // Siga os comentários para implementar cada parte do desafio.
 
+void imprimirTabuleiro(char tabuleiro[10][10]) {
+    printf("   A B C D E F G H I J\n"); // Cabeçalho das colunas
+    for (int i = 0; i < 10; i++) {
+        printf("%2d ", i + 1); // Índice das linhas
+        for (int j = 0; j < 10; j++) {
+            printf("%c ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+
 int main() {
     // Nível Novato - Posicionamento dos Navios
     // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
@@ -35,6 +47,35 @@ int main() {
     // 0 0 1 0 0
     // 1 1 1 1 1
     // 0 0 1 0 0
+
+    printf(" Tabuleiro Batalha naval \n");
+
+
+    char tabuleiro[10][10];
+    
+    // Inicializa o tabuleiro com água ('~')
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            tabuleiro[i][j] = '~';
+        }
+    }
+    // Declaração e posicionamento dos navios
+    int navio1_x = 2, navio1_y = 3; // Navio horizontal começando em (3,4)
+    int navio2_x = 5, navio2_y = 6; // Navio vertical começando em (6,7)
+    
+    // Posiciona o navio horizontalmente
+    for (int i = 0; i < 3; i++) {
+        tabuleiro[navio1_x][navio1_y + i] = '3';
+    }
+    
+    // Posiciona o navio verticalmente
+    for (int i = 0; i < 3; i++) {
+        tabuleiro[navio2_x + i][navio2_y] = '3';
+    }
+    
+    imprimirTabuleiro(tabuleiro);
+    
+
 
     return 0;
 }
