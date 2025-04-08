@@ -7,17 +7,41 @@
 #define tamanho 10
 #define navio 3
 
-void imprimirTabuleiro(char tabuleiro[tamanho][tamanho]) {
+void imprimirtabuleiro(char tabuleiro[tamanho][tamanho]) {
     printf("   A B C D E F G H I J\n"); // Cabeçalho das colunas
     for (int i = 0; i < tamanho; i++) {
-        printf("%2d ", i + 1); // Índice das linhas
+        printf("%2d ", i + 1 ); // Índice das linhas
         for (int j = 0; j < tamanho; j++) {
             printf("%c ", tabuleiro[i][j]);
         }
         printf("\n");
     }
 }
+void aplicarhabilidadeCone(char tabuleiro[tamanho][tamanho], int linhainicio, int colunacentro, int alturacone) {
+    for (int i = 0; i < alturacone; i++) {
+        int linhaAtual = linhainicio + i;
+        if (linhaAtual >= tamanho) break; // Evita sair do tabuleiro
 
+        for (int j = colunacentro - i; j <= colunacentro + i; j++) {
+            if (j >= 0 && j < tamanho) {
+                tabuleiro[linhaAtual][j] = '5';
+            }
+        }
+    }
+}
+void aplicarhabilidadeOctaedro(char tabuleiro[tamanho][tamanho], int linhacentro, int colunacentro) {
+    int dlinhas[] = {0, -1, 1, 0, 0};     // centro, cima, baixo, nada, nada
+    int dcolunas[] = {0, 0, 0, -1, 1};    // centro, nada, nada, esquerda, direita
+
+    for (int i = 0; i < 5; i++) {
+        int linha = linhacentro + dlinhas[i];
+        int coluna = colunacentro + dcolunas[i];
+
+        if (linha >= 0 && linha < tamanho && coluna >= 0 && coluna < tamanho) {
+            tabuleiro[linha][coluna] = '5';
+        }
+    }
+}
 
 int main() {
     // Nível Novato - Posicionamento dos Navios
@@ -63,10 +87,10 @@ int main() {
         }
     }
     // Declaração e posicionamento dos navios
-    int navio1_x = 3, navio1_y = 4; // Navio horizontal começando em (4,5)
-    int navio2_x = 5, navio2_y = 6; // Navio vertical começando em (6,7)
-    int navio3_x = 0, navio3_y = 0; // Navio diagonal começando em (1,1) 
-    int navio4_x = 9, navio4_y = 5; // Navio diagonal começando em (10,6)
+    int navio1_x = 4, navio1_y = 4; // Navio horizontal começando em (5,5)
+    int navio2_x = 2, navio2_y = 8; // Navio vertical começando em (3,9)
+    int navio3_x = 0, navio3_y = 4; // Navio diagonal começando em (1,5) 
+    int navio4_x = 9, navio4_y = 4; // Navio diagonal começando em (10,5)
     // Posiciona o navio horizontalmente
     for (int i = 0; i < navio; i++) {
         tabuleiro[navio1_x][navio1_y + i] = '3';
@@ -85,9 +109,31 @@ int main() {
         tabuleiro[navio4_x - i][navio4_y - i] = '3';
     // o - faz com que o navio esteja de costas
     }
-    imprimirTabuleiro(tabuleiro);
 
 
 
+
+    //ativar habilidade cruz
+    int linhaverticalx1 = 7 ,linhahoeizontalx1 = 3;
+    int linhaverticalx2 = 6 , linhahoeizontalx2 = 5; 
+       // Posiciona a linha horizontalmente
+       for (int i = 0; i < 5; i++) {
+        tabuleiro[linhaverticalx1][linhahoeizontalx1 + i] = '5';
+        // Posiciona a linha verticalmente
+        for (int j = 0; j < 3; j++) {
+            tabuleiro[linhaverticalx2 + j][linhahoeizontalx2] = '5';
+        }
+    }
+
+    // Aplica o cone a partir da linha 0, coluna 4 (coluna 'E'), com 3 linhas de altura
+    aplicarhabilidadeCone(tabuleiro, 0, 2, 3);
+  
+    // Aplica o octaedro no centro da posição [6][1] (linha 6, coluna 'B')
+    aplicarhabilidadeOctaedro(tabuleiro, 6, 1);
+
+
+    imprimirtabuleiro(tabuleiro);
+
+   
     return 0;
 }
